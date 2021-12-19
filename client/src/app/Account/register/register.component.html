@@ -1,0 +1,6 @@
+<form [formGroup]="registerForm" (ngSubmit)="register()">
+  <input formControlName="username" type="text" />
+  <input formControlName="password" type="password" />
+  <button type="submit" [disabled]="!registerForm.valid">Register</button>
+</form>
+<div *ngIf="registered">You were successfully registered. Redirecting...</div>

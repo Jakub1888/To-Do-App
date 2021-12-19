@@ -1,0 +1,32 @@
+<div class="todo-item">
+  <label
+    class="checkbox"
+    [ngbTooltip]="isDone == false ? 'Click to complete task' : 'Task completed'"
+  >
+    <input
+      type="checkbox"
+      class="checkbox__input"
+      [checked]="isDone"
+      (click)="onUpdateItem(todoItem.id)"
+      [disabled]="isDone"
+    />
+    <span class="checkbox__inner"></span>
+  </label>
+
+  <button type="button" (click)="onDeleteItem(todoItem.id)" ngbTooltip="Delete">
+    <i class="fa fa-trash fa-2x"></i>
+  </button>
+  <div class="description-wrap">
+    <div class="description-text">
+      <b>{{ todoItem.name }}</b>
+
+      <p>{{ todoItem.description }}</p>
+    </div>
+    <span class="item-date"
+      >created <em>{{ todoItem.creationDate | date: "medium" }}</em></span
+    >
+    <span class="item-date" *ngIf="todoItem.completionDate"
+      >completed <em>{{ todoItem.completionDate | date: "medium" }}</em></span
+    >
+  </div>
+</div>

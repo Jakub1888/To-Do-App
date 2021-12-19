@@ -1,0 +1,25 @@
+<nav class="nav-list">
+  <a
+    *ngIf="!(accountService.currentUser$ | async)"
+    class="nav-logger"
+    routerLink="/login"
+    routerLinkActive="active"
+    >LOGIN</a
+  >
+  <button
+    class="nav-logger"
+    *ngIf="accountService.currentUser$ | async"
+    (click)="logout()"
+  >
+    Logout
+  </button>
+  <a class="nav-link" routerLink="/" routerLinkActive="active">HOME</a>
+  <a
+    *ngIf="accountService.currentUser$ | async"
+    class="nav-link"
+    routerLink="/todo-list"
+    routerLinkActive="active"
+    >TO-DO LIST</a
+  >
+  <a *ngIf="accountService.currentUser$ | async" class="nav-link">ACCOUNT</a>
+</nav>

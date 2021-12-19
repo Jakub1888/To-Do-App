@@ -1,0 +1,15 @@
+<div class="progress-indicator">
+  <span>total {{ todoItems.length }}</span>
+  <span>done {{ doneItems }}</span>
+
+  <ng-template [ngIf]="todoItems.length != 0" [ngIfElse]="noTasks">
+    <ngb-progressbar
+      type="success"
+      [value]="donePercentage"
+      [showValue]="true"
+    ></ngb-progressbar>
+  </ng-template>
+  <p>{{ user.username | titlecase }}</p>
+
+  <ng-template #noTasks> There are no tasks </ng-template>
+</div>

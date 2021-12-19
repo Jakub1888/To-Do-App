@@ -1,0 +1,30 @@
+.list-wrapper {
+  background: #fff;
+  text-align: center;
+  min-height: 40em;
+  max-height: 40em;
+  padding: 0 1em;
+  overflow-y: auto;
+  overflow: overlay;
+}
+
+.list-inner {
+  display: grid;
+  grid-template-columns: 0.3fr 1fr;
+  column-gap: 2em;
+}
+
+.nav-tabs {
+  position: sticky;
+  top: 0px;
+  z-index: 99;
+  background: #fff;
+}
+.nav-tabs li:first-child {
+  margin-left: auto;
+}
+.not-logged-in {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}

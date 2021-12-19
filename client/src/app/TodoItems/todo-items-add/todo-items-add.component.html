@@ -1,0 +1,32 @@
+<form
+  [formGroup]="todoForm"
+  (ngSubmit)="onSubmit()"
+  *ngIf="addingItem"
+  autocomplete="off"
+>
+  <div class="form-inputs">
+    <div class="form-group">
+      <label for="name">Name of task</label>
+      <input
+        type="text"
+        id="name"
+        class="form-control"
+        formControlName="name"
+      />
+    </div>
+    <div class="form-group">
+      <label for="description">Description</label>
+      <textarea
+        id="description"
+        class="form-control"
+        formControlName="description"
+        rows="1"
+      ></textarea>
+    </div>
+  </div>
+  <button type="submit">submit</button>
+</form>
+<button type="button" class="btn-add" (click)="addingItem = !addingItem">
+  <span *ngIf="!addingItem; else cancel">Add item to-do</span>
+  <ng-template #cancel>Cancel</ng-template>
+</button>

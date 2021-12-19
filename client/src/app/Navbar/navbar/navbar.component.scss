@@ -1,0 +1,19 @@
+.nav-list {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #000;
+  height: 4.4em;
+  font-size: 1.1em;
+}
+
+.nav-link:last-of-type {
+  margin-right: 2em;
+}
+.nav-link:first-of-type {
+  margin-left: auto;
+}
+
+.nav-logger {
+  margin-left: 2em;
+  margin-right: auto;
+}

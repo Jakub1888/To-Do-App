@@ -1,0 +1,67 @@
+<div class="list-wrapper" *ngIf="accountService.currentUser$ | async as user">
+  <div class="list-inner">
+    <div class="user">
+      <app-progress-bar
+        [todoItems]="todoItems"
+        [donePercentage]="donePercentage"
+        [doneItems]="doneItems"
+      >
+      </app-progress-bar>
+    </div>
+    <div>
+      <ul ngbNav #nav="ngbNav" class="nav-tabs">
+        <li [ngbNavItem]="1">
+          <a ngbNavLink>Tasks to-do</a>
+          <ng-template ngbNavContent>
+            <div *ngFor="let todoItem of todoItems; let i = index">
+              <todo-items-item
+                *ngIf="todoItem.done == false"
+                [todoItem]="todoItem"
+                [index]="i"
+                [todoItems]="todoItems"
+                (changeItem)="onItemChange($event)"
+                [@simpleFadeAnimation]="'in'"
+              ></todo-items-item>
+            </div>
+          </ng-template>
+        </li>
+        <li [ngbNavItem]="2">
+          <a ngbNavLink>Completed</a>
+          <ng-template ngbNavContent>
+            <div *ngFor="let todoItem of todoItems; let i = index">
+              <todo-items-item
+                *ngIf="todoItem.done == true"
+                [todoItem]="todoItem"
+                [index]="i"
+                [todoItems]="todoItems"
+                (changeItem)="onItemChange($event)"
+                [@simpleFadeAnimation]="'in'"
+              ></todo-items-item>
+            </div>
+          </ng-template>
+        </li>
+        <li [ngbNavItem]="3">
+          <a ngbNavLink>All</a>
+          <ng-template ngbNavContent>
+            <div *ngFor="let todoItem of todoItems; let i = index">
+              <todo-items-item
+                [todoItem]="todoItem"
+                [index]="i"
+                [todoItems]="todoItems"
+                (changeItem)="onItemChange($event)"
+                [@simpleFadeAnimation]="'in'"
+              ></todo-items-item>
+            </div>
+          </ng-template>
+        </li>
+      </ul>
+      <div [ngbNavOutlet]="nav" class="mt-2"></div>
+      <todo-items-add (addTodoItem)="addTodoItem($event)"></todo-items-add>
+    </div>
+  </div>
+</div>
+
+<div class="not-logged-in" *ngIf="!(accountService.currentUser$ | async)">
+  <h2>Nothing to see here</h2>
+  <p>Please, login or register</p>
+</div>

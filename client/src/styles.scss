@@ -1,0 +1,23 @@
+@import "~bootstrap/scss/bootstrap";
+@import "~ngx-toastr/toastr-bs4-alert";
+
+body,
+html,
+app-root {
+  background: #7cb9e8;
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+p {
+  margin: 0;
+}
+
+button {
+  border: none;
+  background: none;
+}

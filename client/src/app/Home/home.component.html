@@ -1,0 +1,6 @@
+<div class="container">
+  <h1>Welcome to To-Do app</h1>
+  <a *ngIf="!(accountService.currentUser$ | async)" routerLink="/register"
+    >Register here</a
+  >
+</div>
