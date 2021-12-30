@@ -1,6 +1,18 @@
-<form [formGroup]="registerForm" (ngSubmit)="register()">
-  <input formControlName="username" type="text" />
-  <input formControlName="password" type="password" />
+<form [formGroup]="registerForm" (ngSubmit)="registerForm.valid && register()">
+  <app-text-input
+    [formControl]="registerForm.controls['username']"
+    [label]="'Username'"
+  ></app-text-input>
+  <app-text-input
+    [formControl]="registerForm.controls['password']"
+    [type]="'password'"
+    [label]="'Password'"
+  ></app-text-input>
+  <app-text-input
+    [formControl]="registerForm.controls['confirmPassword']"
+    [type]="'password'"
+    [label]="'Confirm Password'"
+  ></app-text-input>
   <button type="submit" [disabled]="!registerForm.valid">Register</button>
 </form>
 <div *ngIf="registered">You were successfully registered. Redirecting...</div>

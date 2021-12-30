@@ -1,3 +1,10 @@
+enum TaskType {
+  None,
+  Home,
+  Work,
+  Shopping,
+}
+
 export interface TodoItem {
   id: number;
   name: string;
@@ -5,4 +12,5 @@ export interface TodoItem {
   done: boolean;
   creationDate: Date;
   completionDate: Date;
+  taskType: TaskType;
 }

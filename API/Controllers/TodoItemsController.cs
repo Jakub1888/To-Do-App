@@ -1,4 +1,5 @@
 using API.Data;
+using API.DTOs;
 using API.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -15,13 +16,15 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<TodoItem>>> GetTodoItems()
+        public async Task<ActionResult<IEnumerable<TodoItemDto>>> GetTodoItems()
         {
-            return await _context.TodoItems.ToListAsync();
+            return await _context.TodoItems
+                .Select(x => ItemToDto(x))
+                .ToListAsync();
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<TodoItem>> GetTodoItem(int id)
+        public async Task<ActionResult<TodoItemDto>> GetTodoItem(int id)
         {
             var todoItem = await _context.TodoItems.FindAsync(id);
 
@@ -30,54 +33,57 @@ namespace API.Controllers
                 return NotFound();
             }
 
-            return todoItem;
+            return ItemToDto(todoItem);
         }
 
         [HttpPost]
-        public async Task<ActionResult<TodoItem>> PostTodoItem(TodoItem todoItem)
+        public async Task<ActionResult<TodoItemDto>> PostTodoItem(TodoItemDto todoItemDto)
         {
-            _context.TodoItems.Add(todoItem);
+            var todoItem = new TodoItem
+            {
+                Id = todoItemDto.Id,
+                Name = todoItemDto.Name,
+                Description = todoItemDto.Description,
+                Done = todoItemDto.Done,
+                CreationDate = todoItemDto.CreationDate,
+                CompletionDate = todoItemDto.CompletionDate,
+                TaskType = todoItemDto.TaskType
+            };
 
+            _context.TodoItems.Add(todoItem);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction(
-                nameof(PostTodoItem),
+                nameof(GetTodoItem),
                 new { id = todoItem.Id },
-                new TodoItem
-                {
-                    Id = todoItem.Id,
-                    Name = todoItem.Name,
-                    Description = todoItem.Description,
-                    Done = todoItem.Done,
-                    CreationDate = todoItem.CreationDate
-                }
-            );
+                ItemToDto(todoItem));
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<TodoItem>> PutTodoItem(int id, TodoItem todoItem)
+        public async Task<ActionResult<TodoItemDto>> PutTodoItem(int id, TodoItemDto todoItemDto)
         {
-            if (id != todoItem.Id)
+            if (id != todoItemDto.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(todoItem).State = EntityState.Modified;
+            var todoItem = await _context.TodoItems.FindAsync(id);
+            if (todoItem == null)
+            {
+                return NotFound();
+            }
+
+            todoItem.Done = todoItemDto.Done;
+            todoItem.CompletionDate = todoItemDto.CompletionDate;
 
             try
             {
                 await _context.SaveChangesAsync();
             }
-            catch (DbUpdateConcurrencyException)
+            catch (DbUpdateConcurrencyException) when (!TodoItemExists(id))
             {
-                if (_context.TodoItems.Any(e => e.Id == id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return NotFound();
+
             }
             return NoContent();
         }
@@ -97,6 +103,23 @@ namespace API.Controllers
             await _context.SaveChangesAsync();
 
             return NoContent();
+        }
+
+        private static TodoItemDto ItemToDto(TodoItem todoItem) =>
+            new TodoItemDto
+            {
+                Id = todoItem.Id,
+                Name = todoItem.Name,
+                Description = todoItem.Description,
+                Done = todoItem.Done,
+                CreationDate = todoItem.CreationDate,
+                CompletionDate = todoItem.CompletionDate,
+                TaskType = todoItem.TaskType
+            };
+
+        private bool TodoItemExists(int id)
+        {
+            return _context.TodoItems.Any(e => e.Id == id);
         }
     }
 }

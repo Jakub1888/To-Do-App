@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { TodoItem } from '../todo-item.model';
 import { TodoItemsService } from '../../_services/todo-items.service';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'todo-items-item',
@@ -21,15 +22,17 @@ export class TodoItemsItemComponent implements OnInit {
   }
 
   onDeleteItem(id: number) {
-    this.todoService.deleteTodoItem(id).subscribe();
-    this.todoItems.splice(this.index, 1);
-    this.changeItem.emit(this.todoItem);
+    this.todoService.deleteTodoItem(id).subscribe(() => {
+      this.todoItems.splice(this.index, 1);
+      this.changeItem.emit(this.todoItem);
+    });
   }
 
   onUpdateItem(id: number) {
     this.todoItem.done = !this.isDone;
     this.todoItem.completionDate = new Date();
-    this.todoService.putTodoItem(id, this.todoItem).subscribe();
+
+    this.todoService.putTodoItem(id, this.todoItem).subscribe(() => {});
     this.changeItem.emit(this.todoItem);
   }
 }

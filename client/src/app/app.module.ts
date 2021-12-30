@@ -20,6 +20,10 @@ import { HomeComponent } from './Home/home.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { ErrorInterceptor } from './_interceptors/error.interceptor';
 import { LoadingInterceptor } from './_interceptors/loading.interceptor';
+import { MatTabsModule } from '@angular/material/tabs';
+import { TextInputComponent } from './_forms/text-input/text-input.component';
+import { TextAreaComponent } from './_forms/text-area/text-area.component';
+import { TaskTypeKeysPipe } from './TodoItems/todo-items-add/task-type-keys.pipe';
 
 @NgModule({
   declarations: [
@@ -33,6 +37,9 @@ import { LoadingInterceptor } from './_interceptors/loading.interceptor';
     RegisterComponent,
     NotFoundComponent,
     HomeComponent,
+    TextInputComponent,
+    TextAreaComponent,
+    TaskTypeKeysPipe,
   ],
   imports: [
     BrowserModule,
@@ -46,6 +53,7 @@ import { LoadingInterceptor } from './_interceptors/loading.interceptor';
       positionClass: 'toast-bottom-right',
     }),
     NgxSpinnerModule,
+    MatTabsModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },

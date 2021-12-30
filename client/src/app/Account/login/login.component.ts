@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -6,10 +6,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
-import { Observable } from 'rxjs';
-import { User } from 'src/app/_models/user';
 import { AccountService } from 'src/app/_services/account.service';
 
 @Component({
@@ -35,12 +32,10 @@ export class LoginComponent implements OnInit {
   login() {
     this.accountService.login(this.loginForm.value).subscribe(
       (response) => {
-        console.log(response);
         this.router.navigateByUrl('todo-list');
       },
       (error) => {
         console.log(error);
-        this.toastr.error(error.error);
       }
     );
     this.loginForm.reset();

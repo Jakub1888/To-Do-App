@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import {
+  AbstractControl,
   FormBuilder,
-  FormControl,
   FormGroup,
+  ValidatorFn,
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
 import { AccountService } from 'src/app/_services/account.service';
 
 @Component({
@@ -17,12 +17,12 @@ import { AccountService } from 'src/app/_services/account.service';
 export class RegisterComponent implements OnInit {
   registerForm: FormGroup;
   registered: boolean = false;
+  validationErrors: string[] = [];
 
   constructor(
-    private formBuilder: FormBuilder,
     private accountService: AccountService,
     private router: Router,
-    private toastr: ToastrService
+    private fb: FormBuilder
   ) {}
 
   ngOnInit(): void {
@@ -32,26 +32,39 @@ export class RegisterComponent implements OnInit {
   register() {
     this.accountService.register(this.registerForm.value).subscribe(
       (response) => {
-        console.log(response);
         if (response !== null) {
           this.registered = true;
-          setTimeout(() => this.router.navigate(['/todo-list']), 1000);
+          this.router.navigateByUrl('/todo-list');
         }
       },
       (error) => {
-        console.log(error);
-        this.toastr.error(error.error);
+        this.validationErrors = error;
       }
     );
   }
 
   private initForm() {
-    let username = '';
-    let password = '';
-
-    this.registerForm = this.formBuilder.group({
-      username: new FormControl(username, Validators.required),
-      password: new FormControl(password, Validators.required),
+    this.registerForm = this.fb.group({
+      username: ['', Validators.required],
+      password: [
+        '',
+        [Validators.required, Validators.minLength(4), Validators.maxLength(8)],
+      ],
+      confirmPassword: [
+        '',
+        [Validators.required, this.matchValues('password')],
+      ],
     });
+    this.registerForm.controls.password.valueChanges.subscribe(() => {
+      this.registerForm.controls.confirmPassword.updateValueAndValidity();
+    });
+  }
+
+  matchValues(matchTo: string): ValidatorFn {
+    return (control: AbstractControl) => {
+      return control?.value === control?.parent?.controls[matchTo].value
+        ? null
+        : { isMatching: true };
+    };
   }
 }

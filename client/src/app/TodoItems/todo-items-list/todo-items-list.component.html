@@ -2,60 +2,114 @@
   <div class="list-inner">
     <div class="user">
       <app-progress-bar
-        [todoItems]="todoItems"
+        [todoItems]="displayTodoItems"
         [donePercentage]="donePercentage"
         [doneItems]="doneItems"
       >
       </app-progress-bar>
+      <div class="container">
+        <h2>Type of Tasks: {{ task }}</h2>
+
+        <div class="row">
+          <div class="col-sm mt-2">
+            <button
+              type="button"
+              class="btn btn-primary"
+              (click)="getTodoItems()"
+            >
+              All
+            </button>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm mt-1">
+            <button
+              type="button"
+              class="btn btn-secondary mr-1"
+              (click)="getItemsByTaskName('None')"
+            >
+              None
+            </button>
+            <button
+              type="button"
+              class="btn btn-success"
+              (click)="getItemsByTaskName('Home')"
+            >
+              Home
+            </button>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm mt-1">
+            <button
+              type="button"
+              class="btn btn-warning mr-1"
+              (click)="getItemsByTaskName('Work')"
+            >
+              Work
+            </button>
+            <button
+              type="button"
+              class="btn btn-info"
+              (click)="getItemsByTaskName('Shopping')"
+            >
+              Shopping
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
-    <div>
-      <ul ngbNav #nav="ngbNav" class="nav-tabs">
-        <li [ngbNavItem]="1">
-          <a ngbNavLink>Tasks to-do</a>
-          <ng-template ngbNavContent>
-            <div *ngFor="let todoItem of todoItems; let i = index">
-              <todo-items-item
-                *ngIf="todoItem.done == false"
-                [todoItem]="todoItem"
-                [index]="i"
-                [todoItems]="todoItems"
-                (changeItem)="onItemChange($event)"
-                [@simpleFadeAnimation]="'in'"
-              ></todo-items-item>
-            </div>
-          </ng-template>
-        </li>
-        <li [ngbNavItem]="2">
-          <a ngbNavLink>Completed</a>
-          <ng-template ngbNavContent>
-            <div *ngFor="let todoItem of todoItems; let i = index">
-              <todo-items-item
-                *ngIf="todoItem.done == true"
-                [todoItem]="todoItem"
-                [index]="i"
-                [todoItems]="todoItems"
-                (changeItem)="onItemChange($event)"
-                [@simpleFadeAnimation]="'in'"
-              ></todo-items-item>
-            </div>
-          </ng-template>
-        </li>
-        <li [ngbNavItem]="3">
-          <a ngbNavLink>All</a>
-          <ng-template ngbNavContent>
-            <div *ngFor="let todoItem of todoItems; let i = index">
-              <todo-items-item
-                [todoItem]="todoItem"
-                [index]="i"
-                [todoItems]="todoItems"
-                (changeItem)="onItemChange($event)"
-                [@simpleFadeAnimation]="'in'"
-              ></todo-items-item>
-            </div>
-          </ng-template>
-        </li>
-      </ul>
-      <div [ngbNavOutlet]="nav" class="mt-2"></div>
+    <div class="aaa">
+      <mat-tab-group>
+        <mat-tab label="Tasks To-do">
+          <ng-container
+            *ngFor="let todoItem of displayTodoItems; let i = index"
+          >
+            <todo-items-item
+              *ngIf="todoItem.done == false"
+              [todoItem]="todoItem"
+              [todoItems]="displayTodoItems"
+              [index]="i"
+              (changeItem)="onItemChange($event)"
+              [@simpleFadeAnimation]="'in'"
+            ></todo-items-item>
+          </ng-container>
+          <ng-container *ngIf="noTasks"><h3>No Tasks To-Do</h3></ng-container>
+        </mat-tab>
+        <mat-tab label="Completed Tasks">
+          <ng-container
+            *ngFor="let todoItem of displayTodoItems; let i = index"
+          >
+            <todo-items-item
+              *ngIf="todoItem.done == true"
+              [todoItem]="todoItem"
+              [todoItems]="displayTodoItems"
+              [index]="i"
+              (changeItem)="onItemChange($event)"
+              [@simpleFadeAnimation]="'in'"
+            ></todo-items-item>
+          </ng-container>
+          <ng-container *ngIf="todoItem"
+            ><h3>No Completed Tasks</h3></ng-container
+          >
+        </mat-tab>
+        <mat-tab label="All Tasks">
+          <ng-container
+            *ngFor="let todoItem of displayTodoItems; let i = index"
+          >
+            <todo-items-item
+              *ngIf="todoItem.done == true || false"
+              [todoItem]="todoItem"
+              [todoItems]="displayTodoItems"
+              [index]="i"
+              (changeItem)="onItemChange($event)"
+              [@simpleFadeAnimation]="'in'"
+            ></todo-items-item>
+          </ng-container>
+          <ng-container *ngIf="!todoItem"><h3>No Tasks</h3></ng-container>
+        </mat-tab>
+      </mat-tab-group>
+
       <todo-items-add (addTodoItem)="addTodoItem($event)"></todo-items-add>
     </div>
   </div>

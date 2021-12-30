@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { TodoItemsService } from '../../_services/todo-items.service';
 import {
   trigger,
@@ -11,6 +11,7 @@ import { TodoItem } from '../todo-item.model';
 import { AccountService } from 'src/app/_services/account.service';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
+import { stringify } from 'querystring';
 
 @Component({
   selector: 'todo-items-list',
@@ -25,9 +26,12 @@ import { filter, map } from 'rxjs/operators';
   ],
 })
 export class TodoItemsListComponent implements OnInit {
-  todoItems = [];
+  todoItems: TodoItem[] = [];
+  displayTodoItems: TodoItem[] = [];
   donePercentage: number = 0;
   doneItems: number = 0;
+  task = 'All';
+  noTasks: boolean = false;
 
   constructor(
     private todoService: TodoItemsService,
@@ -36,10 +40,33 @@ export class TodoItemsListComponent implements OnInit {
 
   ngOnInit(): void {
     this.getTodoItems();
-    this.getCompletedPercentage();
   }
 
   addTodoItem(todoItem: TodoItem) {
+    //this.getCompletedPercentage();
+    //this.todoItems.push(todoItem);
+  }
+
+  getItemsByTaskName(taskName: any) {
+    this.noTasks = this.task = taskName === 'None' ? 'No Category' : taskName;
+
+    if (taskName) {
+      this.displayTodoItems = this.todoItems.filter(
+        (x) => x.taskType.valueOf() === taskName
+      );
+    } else {
+      this.displayTodoItems = this.todoItems;
+    }
+
+    let aa = this.displayTodoItems.filter(
+      (x) => x.taskType.valueOf !== taskName
+    );
+
+    if (aa.length === 0 && this.displayTodoItems) this.noTasks = true;
+    else this.noTasks = false;
+
+    console.log(aa);
+
     this.getCompletedPercentage();
   }
 
@@ -50,13 +77,17 @@ export class TodoItemsListComponent implements OnInit {
   getTodoItems() {
     this.todoService.getTodoItems().subscribe((itemsData) => {
       this.todoItems = itemsData;
+      this.displayTodoItems = itemsData;
+      this.task = 'All';
       this.getCompletedPercentage();
     });
   }
 
   getCompletedPercentage() {
-    let doneItems = this.todoItems.filter((obj) => obj.done === true).length;
-    let allItems = this.todoItems;
+    let doneItems = this.displayTodoItems.filter(
+      (item) => item.done === true
+    ).length;
+    let allItems = this.displayTodoItems;
 
     let donePercentage: number = (doneItems / allItems.length) * 100;
 

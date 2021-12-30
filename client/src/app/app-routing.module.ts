@@ -4,6 +4,7 @@ import { LoginComponent } from './Account/login/login.component';
 import { RegisterComponent } from './Account/register/register.component';
 import { NotFoundComponent } from './errors/not-found/not-found.component';
 import { HomeComponent } from './Home/home.component';
+import { TodoItemsAddComponent } from './TodoItems/todo-items-add/todo-items-add.component';
 import { TodoItemsListComponent } from './TodoItems/todo-items-list/todo-items-list.component';
 import { AuthGuard } from './_guards/auth.guard';
 import { loggedInGuard } from './_guards/loggedIn.guard';
@@ -20,7 +21,12 @@ const routes: Routes = [
     path: '',
     runGuardsAndResolvers: 'always',
     canActivate: [AuthGuard],
-    children: [{ path: 'todo-list', component: TodoItemsListComponent }],
+    children: [
+      {
+        path: 'todo-list',
+        component: TodoItemsListComponent,
+      },
+    ],
   },
   { path: '**', component: NotFoundComponent, pathMatch: 'full' },
 ];
