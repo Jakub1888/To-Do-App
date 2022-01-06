@@ -1,24 +1,41 @@
+using System.Security.Claims;
 using API.Data;
 using API.DTOs;
 using API.Entities;
+using API.Extensions;
+using API.Interfaces;
+using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
 
 namespace API.Controllers
 {
+    [Authorize]
     public class TodoItemsController : BaseAPIController
     {
         private readonly DataContext _context;
-        public TodoItemsController(DataContext context)
+        private readonly IMapper _mapper;
+        private readonly UserManager<AppUser> _userManager;
+        private readonly IUserRepository _userRepository;
+
+        public TodoItemsController(DataContext context, IMapper mapper,
+            UserManager<AppUser> userManager, IUserRepository userRepository)
         {
+            _userRepository = userRepository;
+            _userManager = userManager;
+            _mapper = mapper;
             _context = context;
         }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<TodoItemDto>>> GetTodoItems()
         {
+            var userId = User.GetUserId();
+
             return await _context.TodoItems
+                .Where(x => x.AppUserId == userId)
                 .Select(x => ItemToDto(x))
                 .ToListAsync();
         }
@@ -39,6 +56,9 @@ namespace API.Controllers
         [HttpPost]
         public async Task<ActionResult<TodoItemDto>> PostTodoItem(TodoItemDto todoItemDto)
         {
+            var userId = User.GetUserId();
+            var user = await _userRepository.GetUserByIdAsync(userId);
+
             var todoItem = new TodoItem
             {
                 Id = todoItemDto.Id,
@@ -47,7 +67,8 @@ namespace API.Controllers
                 Done = todoItemDto.Done,
                 CreationDate = todoItemDto.CreationDate,
                 CompletionDate = todoItemDto.CompletionDate,
-                TaskType = todoItemDto.TaskType
+                TaskType = todoItemDto.TaskType,
+                AppUserId = user.Id
             };
 
             _context.TodoItems.Add(todoItem);
@@ -56,7 +77,7 @@ namespace API.Controllers
             return CreatedAtAction(
                 nameof(GetTodoItem),
                 new { id = todoItem.Id },
-                ItemToDto(todoItem));
+                _mapper.Map<TodoItemDto>(todoItem));
         }
 
         [HttpPut("{id}")]
@@ -105,6 +126,11 @@ namespace API.Controllers
             return NoContent();
         }
 
+        private bool TodoItemExists(int id)
+        {
+            return _context.TodoItems.Any(e => e.Id == id);
+        }
+
         private static TodoItemDto ItemToDto(TodoItem todoItem) =>
             new TodoItemDto
             {
@@ -114,12 +140,7 @@ namespace API.Controllers
                 Done = todoItem.Done,
                 CreationDate = todoItem.CreationDate,
                 CompletionDate = todoItem.CompletionDate,
-                TaskType = todoItem.TaskType
+                TaskType = todoItem.TaskType,
             };
-
-        private bool TodoItemExists(int id)
-        {
-            return _context.TodoItems.Any(e => e.Id == id);
-        }
     }
 }

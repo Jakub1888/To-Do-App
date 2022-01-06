@@ -13,5 +13,7 @@ namespace API.Entities
         public DateTime? CompletionDate { get; set; } = null;
         public TaskType TaskType { get; set; }
 
+        public AppUser AppUser { get; set; }
+        public int AppUserId { get; set; }
     }
 }
