@@ -1,8 +1,4 @@
 .progress-indicator {
-  position: sticky;
-  top: 0px;
-  z-index: 99;
-  background: #fff;
   margin-bottom: 1.5em;
 }
 
@@ -13,6 +9,10 @@
 .progress-person {
   text-align: center;
   margin: 0;
+}
+
+.bar-wrap {
+  height: 2em;
 }
 p {
   font-weight: bold;

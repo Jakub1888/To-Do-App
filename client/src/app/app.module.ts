@@ -24,6 +24,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { TextInputComponent } from './_forms/text-input/text-input.component';
 import { TextAreaComponent } from './_forms/text-area/text-area.component';
 import { TaskTypeKeysPipe } from './TodoItems/todo-items-add/task-type-keys.pipe';
+import { JwtInterceptor } from './_interceptors/jwt.interceptor';
 
 @NgModule({
   declarations: [
@@ -57,6 +58,7 @@ import { TaskTypeKeysPipe } from './TodoItems/todo-items-add/task-type-keys.pipe
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true },
   ],
   bootstrap: [AppComponent],

@@ -28,8 +28,10 @@ body {
 }
 
 .form-group {
+  min-height: 6.5em;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  margin-right: 0.4em;
+  align-items: center;
+  margin-left: 0.4em;
+  margin-bottom: 0;
 }

@@ -9,9 +9,6 @@ import {
 } from '@angular/animations';
 import { TodoItem } from '../todo-item.model';
 import { AccountService } from 'src/app/_services/account.service';
-import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
-import { stringify } from 'querystring';
 
 @Component({
   selector: 'todo-items-list',
@@ -31,7 +28,6 @@ export class TodoItemsListComponent implements OnInit {
   donePercentage: number = 0;
   doneItems: number = 0;
   task = 'All';
-  noTasks: boolean = false;
 
   constructor(
     private todoService: TodoItemsService,
@@ -43,13 +39,11 @@ export class TodoItemsListComponent implements OnInit {
   }
 
   addTodoItem(todoItem: TodoItem) {
-    //this.getCompletedPercentage();
-    //this.todoItems.push(todoItem);
+    this.getCompletedPercentage();
+    this.displayTodoItems.push(todoItem);
   }
 
   getItemsByTaskName(taskName: any) {
-    this.noTasks = this.task = taskName === 'None' ? 'No Category' : taskName;
-
     if (taskName) {
       this.displayTodoItems = this.todoItems.filter(
         (x) => x.taskType.valueOf() === taskName
@@ -58,15 +52,11 @@ export class TodoItemsListComponent implements OnInit {
       this.displayTodoItems = this.todoItems;
     }
 
-    let aa = this.displayTodoItems.filter(
-      (x) => x.taskType.valueOf !== taskName
-    );
+    if (taskName === 'All') {
+      this.displayTodoItems = this.todoItems;
+    }
 
-    if (aa.length === 0 && this.displayTodoItems) this.noTasks = true;
-    else this.noTasks = false;
-
-    console.log(aa);
-
+    this.task = taskName === 'None' ? 'No Category' : taskName;
     this.getCompletedPercentage();
   }
 

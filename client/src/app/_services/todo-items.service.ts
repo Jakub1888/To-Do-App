@@ -16,6 +16,10 @@ export class TodoItemsService {
     return this.http.get<TodoItem[]>(this.baseUrl);
   }
 
+  getTodoItem(id: number): Observable<TodoItem> {
+    return this.http.get<TodoItem>(`${this.baseUrl}/${id}`);
+  }
+
   postTodoItem(todoItem: TodoItem): Observable<TodoItem> {
     return this.http.post<TodoItem>(this.baseUrl, todoItem);
   }

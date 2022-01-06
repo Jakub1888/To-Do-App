@@ -13,6 +13,12 @@
     [type]="'password'"
     [label]="'Confirm Password'"
   ></app-text-input>
+
   <button type="submit" [disabled]="!registerForm.valid">Register</button>
 </form>
 <div *ngIf="registered">You were successfully registered. Redirecting...</div>
+<div class="row" *ngIf="validationErrors.length > 0">
+  <ul class="text-danger">
+    <li *ngFor="let error of validationErrors">{{ error.description }}</li>
+  </ul>
+</div>

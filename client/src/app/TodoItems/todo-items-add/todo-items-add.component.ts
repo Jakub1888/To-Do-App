@@ -38,11 +38,14 @@ export class TodoItemsAddComponent implements OnInit {
   onSubmit() {
     if (this.todoForm.valid) {
       this.todoService.postTodoItem(this.todoForm.value).subscribe(
-        () => {
+        (response) => {
           this.addingItem = !this.addingItem;
-          //this.addTodoItem.emit(this.todoForm.value);
-          location.reload();
+          this.addTodoItem.emit(response);
+          this.todoForm.controls['name'].reset();
+          this.todoForm.controls['description'].reset();
+          this.todoForm.controls['taskType'].setValue('None');
         },
+
         (error) => {
           this.toastr.error(error);
         }
@@ -63,10 +66,16 @@ export class TodoItemsAddComponent implements OnInit {
 
   private initForm() {
     this.todoForm = this.fb.group({
-      name: ['', Validators.required],
+      name: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(20),
+        ],
+      ],
       description: ['', Validators.maxLength(60)],
       done: [false, Validators.required],
-      creationDate: [new Date(), Validators.required],
       taskType: ['None', Validators.required],
     });
   }

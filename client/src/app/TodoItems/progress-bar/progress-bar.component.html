@@ -10,13 +10,15 @@
     </p>
   </div>
 
-  <ng-template [ngIf]="todoItems.length != 0" [ngIfElse]="noTasks">
-    <ngb-progressbar
-      type="success"
-      [value]="donePercentage"
-      [showValue]="true"
-    ></ngb-progressbar>
-  </ng-template>
+  <div class="bar-wrap">
+    <ng-template [ngIf]="todoItems.length != 0" [ngIfElse]="noTasks">
+      <ngb-progressbar
+        type="success"
+        [value]="donePercentage"
+        [showValue]="true"
+      ></ngb-progressbar>
+    </ng-template>
 
-  <ng-template #noTasks> There are no tasks </ng-template>
+    <ng-template #noTasks> There are no tasks </ng-template>
+  </div>
 </div>
