@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { User } from 'src/app/_models/user';
 import { AccountService } from 'src/app/_services/account.service';
-import { TodoItem } from '../todo-item.model';
+import { TodoItem } from '../../_models/todo-item.model';
 
 @Component({
   selector: 'app-progress-bar',
