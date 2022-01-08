@@ -32,6 +32,11 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-left: 0.4em;
   margin-bottom: 0;
+}
+
+label {
+  padding-left: 0.6em;
+  font-size: 1.2em;
+  text-align: left;
 }

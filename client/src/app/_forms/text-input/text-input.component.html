@@ -5,7 +5,11 @@
     type="{{ type }}"
     class="form-control"
     [formControl]="ngControl.control"
-    placeholder="{{ label }}"
+    placeholder=" {{
+      label === 'Username' || label === 'Password'
+        ? 'Enter your ' + label
+        : 'Enter ' + label
+    }}"
   />
   <div *ngIf="ngControl.control.errors?.required" class="invalid-feedback">
     Please enter a {{ label }}

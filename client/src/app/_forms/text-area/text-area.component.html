@@ -6,7 +6,7 @@
     cols="{{ cols }}"
     rows="{{ rows }}"
     [formControl]="ngControl.control"
-    placeholder="{{ label }}"
+    placeholder="Enter {{ label }}"
   ></textarea>
   <div *ngIf="ngControl.control.errors?.maxlength" class="invalid-feedback">
     {{ label }} can be at most

@@ -1,4 +1,6 @@
 <form [formGroup]="loginForm" (ngSubmit)="loginForm.valid && login()">
+  <h1>Log In</h1>
+
   <app-text-input
     [formControl]="loginForm.controls['username']"
     [label]="'Username'"
@@ -8,9 +10,11 @@
     [type]="'password'"
     [label]="'Password'"
   ></app-text-input>
-  <button type="submit" [disabled]="!loginForm.valid">Login</button>
+  <button class="btn btn-primary" type="submit" [disabled]="!loginForm.valid">
+    Login
+  </button>
+  <p>
+    No account yet?
+    <a routerLink="/register" routerLinkActive="active">Register here.</a>
+  </p>
 </form>
-<p>
-  No account yet?
-  <a routerLink="/register" routerLinkActive="active">Register here.</a>
-</p>
