@@ -61,36 +61,38 @@
     </div>
     <div class="list-tasks">
       <mat-tab-group>
-        <mat-tab label="Tasks To-do">
+        <mat-tab label="Tasks To-do: {{ notDoneItems }}">
           <ng-container
             *ngFor="let todoItem of displayTodoItems; let i = index"
           >
             <todo-items-item
+              [hidden]="displayItems"
               *ngIf="todoItem.done === false"
               [todoItem]="todoItem"
               [todoItems]="displayTodoItems"
               [index]="i"
               (changeItem)="onItemChange($event)"
-              [@simpleFadeAnimation]="'in'"
             ></todo-items-item>
+            <h2 class="no-tasks" *ngIf="notDoneItems === 0">No Tasks To-do</h2>
           </ng-container>
         </mat-tab>
-        <mat-tab label="Completed Tasks">
+        <mat-tab label="Completed Tasks: {{ doneItems }}">
           <ng-container
             *ngFor="let todoItem of displayTodoItems; let i = index"
           >
             <todo-items-item
+              [hidden]="displayItems"
               *ngIf="todoItem.done === true"
               [todoItem]="todoItem"
               [todoItems]="displayTodoItems"
               [index]="i"
               (changeItem)="onItemChange($event)"
-              [@simpleFadeAnimation]="'in'"
             ></todo-items-item>
+            <h2 class="no-tasks" *ngIf="doneItems === 0">No Completed Tasks</h2>
           </ng-container>
         </mat-tab>
       </mat-tab-group>
-      <h1 *ngIf="displayTodoItems.length === 0">There are no Tasks</h1>
+      <h2 *ngIf="displayTodoItems.length === 0">There are no Tasks</h2>
       <todo-items-add (addTodoItem)="addTodoItem($event)"></todo-items-add>
     </div>
   </div>

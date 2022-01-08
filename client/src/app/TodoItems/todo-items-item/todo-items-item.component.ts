@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { TodoItem } from '../todo-item.model';
+import { TodoItem } from '../../_models/todo-item.model';
 import { TodoItemsService } from '../../_services/todo-items.service';
-import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'todo-items-item',
@@ -21,7 +20,6 @@ export class TodoItemsItemComponent implements OnInit {
   ngOnInit(): void {
     this.isDone = this.todoItem.done;
     this.taskTag = this.todoItem.taskType.valueOf();
-    console.log(this.taskTag);
   }
 
   onDeleteItem(id: number) {

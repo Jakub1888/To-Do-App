@@ -7,27 +7,22 @@ import {
   animate,
   transition,
 } from '@angular/animations';
-import { TodoItem } from '../todo-item.model';
+import { TodoItem } from '../../_models/todo-item.model';
 import { AccountService } from 'src/app/_services/account.service';
 
 @Component({
   selector: 'todo-items-list',
   templateUrl: './todo-items-list.component.html',
   styleUrls: ['./todo-items-list.component.scss'],
-  animations: [
-    trigger('simpleFadeAnimation', [
-      state('in', style({ opacity: 1 })),
-      transition(':enter', [style({ opacity: 0 }), animate(200)]),
-      transition(':leave', animate(400, style({ opacity: 0 }))),
-    ]),
-  ],
 })
 export class TodoItemsListComponent implements OnInit {
   todoItems: TodoItem[] = [];
   displayTodoItems: TodoItem[] = [];
   donePercentage: number = 0;
   doneItems: number = 0;
+  notDoneItems: number = 0;
   task = 'All';
+  displayItems = false;
 
   constructor(
     private todoService: TodoItemsService,
@@ -39,8 +34,8 @@ export class TodoItemsListComponent implements OnInit {
   }
 
   addTodoItem(todoItem: TodoItem) {
-    this.getCompletedPercentage();
     this.displayTodoItems.push(todoItem);
+    this.getCompletedPercentage();
   }
 
   getItemsByTaskName(taskName: any) {
@@ -77,11 +72,15 @@ export class TodoItemsListComponent implements OnInit {
     let doneItems = this.displayTodoItems.filter(
       (item) => item.done === true
     ).length;
+    let notDoneItems = this.displayTodoItems.filter(
+      (item) => item.done === false
+    ).length;
     let allItems = this.displayTodoItems;
 
     let donePercentage: number = (doneItems / allItems.length) * 100;
 
     this.donePercentage = donePercentage;
     this.doneItems = doneItems;
+    this.notDoneItems = notDoneItems;
   }
 }
