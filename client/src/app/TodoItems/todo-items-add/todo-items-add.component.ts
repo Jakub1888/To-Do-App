@@ -5,7 +5,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { TodoItem } from '../todo-item.model';
+import { TodoItem } from '../../_models/todo-item.model';
 import { TodoItemsService } from '../../_services/todo-items.service';
 import { ToastrService } from 'ngx-toastr';
 
