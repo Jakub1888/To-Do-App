@@ -9,7 +9,7 @@ namespace API.DTOs
         [Required] [StringLength(20, MinimumLength = 3)] public string Name { get; set; }
         [StringLength(80, MinimumLength = 0)] public string Description { get; set; }
         [Required] public bool Done { get; set; } = false;
-        [Required] public DateTime CreationDate { get; set; } = DateTime.Now;
+        [Required] public DateTime CreationDate { get; set; } = DateTime.UtcNow;
         public DateTime? CompletionDate { get; set; } = null;
         [Required] public TaskType TaskType { get; set; }
 

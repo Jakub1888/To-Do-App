@@ -98,7 +98,7 @@ namespace API.Controllers
             todoItem.Done = todoItemDto.Done;
             if (todoItem.Done == true)
             {
-                todoItem.CompletionDate = DateTime.Now;
+                todoItem.CompletionDate = DateTime.UtcNow;
             }
             else
             {
