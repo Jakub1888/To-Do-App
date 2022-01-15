@@ -74,7 +74,7 @@ export class TodoItemsAddComponent implements OnInit {
           Validators.maxLength(20),
         ],
       ],
-      description: ['', Validators.maxLength(60)],
+      description: ['', Validators.maxLength(80)],
       done: [false, Validators.required],
       taskType: ['None', Validators.required],
     });

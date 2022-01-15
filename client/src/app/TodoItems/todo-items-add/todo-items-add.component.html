@@ -5,25 +5,26 @@
   autocomplete="off"
 >
   <div class="form-inputs">
-    <app-text-input
-      [formControl]="todoForm.controls['name']"
-      [label]="'Name of a task'"
-    ></app-text-input>
-
+    <div class="inputs-inner">
+      <app-text-input
+        [formControl]="todoForm.controls['name']"
+        [label]="'Name of a task'"
+      ></app-text-input>
+      <div class="form-group">
+        <label>Task Type</label>
+        <select formControlName="taskType" class="form-control">
+          <option *ngFor="let task of taskTypes | keys" [ngValue]="task.value">
+            {{ task.value }}
+          </option>
+        </select>
+      </div>
+    </div>
     <app-text-area
       [formControl]="todoForm.controls['description']"
       [label]="'Description'"
       [rows]="1"
       [cols]="30"
     ></app-text-area>
-    <div class="form-group">
-      <label>Task Type</label>
-      <select formControlName="taskType" class="form-control">
-        <option *ngFor="let task of taskTypes | keys" [ngValue]="task.value">
-          {{ task.value }}
-        </option>
-      </select>
-    </div>
   </div>
   <div>
     <button [disabled]="!todoForm.valid" class="btn btn-primary" type="submit">
@@ -32,7 +33,7 @@
   </div>
 </form>
 <button type="button" class="btn-add" *ngIf="!addingItem" (click)="onAdding()">
-  Add item to-do
+  Add task to-do
 </button>
 <button class="btn-add mt-2" *ngIf="addingItem" (click)="onCancelAdding()">
   Cancel

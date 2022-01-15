@@ -1,44 +1,148 @@
 <div class="todo-item">
-  <div class="item-details">
-    <label
-      class="checkbox"
-      [ngbTooltip]="
-        isDone == false ? 'Click to complete task' : 'Task completed'
-      "
-    >
-      <input
-        type="checkbox"
-        class="checkbox__input"
-        [checked]="isDone"
-        (click)="onUpdateItem(todoItem.id)"
-      />
-      <span class="checkbox__inner"></span>
-    </label>
+  <div class="item-wrap">
+    <div>
+      <form
+        (ngSubmit)="editForm.valid && onUpdateItem(todoItem.id)"
+        [formGroup]="editForm"
+        (ngSubmit)="(editForm.valid)"
+        autocomplete="off"
+      >
+        <div class="item-header">
+          <div class="item-dates">
+            <p class="item-date">
+              <b>Created:</b> {{ todoItem.creationDate | date: "short" }}
+            </p>
+            <p class="item-date" *ngIf="todoItem.completionDate">
+              <b>Completed:</b>{{ todoItem.completionDate | date: "short" }}
+            </p>
+          </div>
 
-    <button
-      type="button"
-      (click)="onDeleteItem(todoItem.id)"
-      ngbTooltip="Delete"
-    >
-      <i class="fa fa-trash fa-2x"></i>
-    </button>
-    <div class="description-wrap">
-      <div class="description-text">
-        <p><b>Task Name: </b>{{ todoItem.name }}</p>
-
-        <p><b>Task Description: </b>{{ todoItem.description }}</p>
-        <div class="description-dates">
-          <p class="item-date">
-            <b>Created: </b>{{ todoItem.creationDate | date: "short" }}
-          </p>
-          <p class="item-date" *ngIf="todoItem.completionDate">
-            <b>Completed: </b>{{ todoItem.completionDate | date: "short" }}
-          </p>
+          <fieldset [disabled]="!editing">
+            <select
+              formControlName="taskType"
+              [ngClass]="getTaskTypeClass()"
+              class="task-tag"
+            >
+              <option
+                *ngFor="let task of taskTypes | keys"
+                [ngValue]="task.value"
+                style="background-color: white; color: black"
+              >
+                {{ task.value }}
+              </option>
+            </select>
+          </fieldset>
         </div>
-      </div>
+
+        <div class="item-details">
+          <div>
+            <fieldset [disabled]="!editing">
+              <label class="task-name">Task Name:</label>
+              <input
+                type="text"
+                formControlName="name"
+                spellcheck="false"
+                class="form-control"
+              />
+            </fieldset>
+            <div
+              class="item-error"
+              *ngIf="
+                editForm.get('name').errors?.minlength ||
+                editForm.get('name').errors?.maxlength ||
+                editForm.get('name').errors?.required
+              "
+            >
+              Task name must be between 3 to 20 characters long
+            </div>
+
+            <fieldset [disabled]="!editing">
+              <label>Task Description:</label>
+              <textarea
+                autosize
+                [minRows]="1"
+                [maxRows]="3"
+                type="text"
+                formControlName="description"
+                spellcheck="false"
+                class="form-control"
+              ></textarea>
+            </fieldset>
+            <div
+              class="item-error"
+              *ngIf="editForm.get('description').errors?.maxlength"
+            >
+              Task description can be at most 80 characters long
+            </div>
+          </div>
+
+          <div class="item-buttons">
+            <label
+              class="checkbox"
+              [ngbTooltip]="
+                isDone == false ? 'Click to complete task' : 'Task completed'
+              "
+              placement="left"
+            >
+              <input
+                type="checkbox"
+                class="checkbox__input"
+                [checked]="isDone"
+                (click)="onCompleteTask(todoItem.id)"
+              />
+              <span class="checkbox__inner"></span>
+            </label>
+
+            <button
+              class="button-delete"
+              type="button"
+              (click)="onDeleteItem(todoItem.id)"
+            >
+              <i
+                placement="left"
+                ngbTooltip="Delete"
+                class="fa fa-trash fa-2x"
+              ></i>
+            </button>
+
+            <div class="edit-buttons" *ngIf="todoItem.done === false">
+              <button
+                type="button"
+                *ngIf="!editing"
+                (click)="editing = !editing"
+              >
+                <i
+                  class="fa fa-pencil fa-2x"
+                  ngbTooltip="Edit"
+                  placement="left"
+                ></i>
+              </button>
+              <button type="button" *ngIf="editing" (click)="onCancelUpdate()">
+                <i
+                  ngbTooltip="Cancel"
+                  placement="left"
+                  class="fa fa-times-circle fa-2x"
+                ></i>
+              </button>
+              <button
+                *ngIf="editing"
+                type="submit"
+                [ngStyle]="
+                  editForm.valid
+                    ? { color: 'green' }
+                    : { color: 'grey', cursor: 'not-allowed' }
+                "
+              >
+                <i
+                  ngbTooltip="Save"
+                  placement="left"
+                  class="fa fa-check fa-2x"
+                ></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
     </div>
   </div>
-  <p [ngClass]="getTaskTypeClass()" class="task-tag">
-    {{ todoItem.taskType }}
-  </p>
 </div>

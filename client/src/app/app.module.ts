@@ -25,6 +25,7 @@ import { TextInputComponent } from './_forms/text-input/text-input.component';
 import { TextAreaComponent } from './_forms/text-area/text-area.component';
 import { TaskTypeKeysPipe } from './TodoItems/todo-items-add/task-type-keys.pipe';
 import { JwtInterceptor } from './_interceptors/jwt.interceptor';
+import { AutosizeModule } from 'ngx-autosize';
 
 @NgModule({
   declarations: [
@@ -55,6 +56,7 @@ import { JwtInterceptor } from './_interceptors/jwt.interceptor';
     }),
     NgxSpinnerModule,
     MatTabsModule,
+    AutosizeModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },

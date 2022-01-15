@@ -25,8 +25,3 @@
   </button>
 </form>
 <div *ngIf="registered">You were successfully registered. Redirecting...</div>
-<div class="row" *ngIf="validationErrors.length > 0">
-  <ul class="text-danger">
-    <li *ngFor="let error of validationErrors">{{ error.description }}</li>
-  </ul>
-</div>

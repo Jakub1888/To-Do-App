@@ -22,3 +22,17 @@ p {
 span {
   font-weight: normal;
 }
+
+@media screen and (max-width: 600px) {
+  .progress-indicator {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .bar-wrap {
+    height: 0;
+    width: 50%;
+  }
+}

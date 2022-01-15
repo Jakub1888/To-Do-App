@@ -9,52 +9,53 @@
       </app-progress-bar>
       <div class="container">
         <h2 class="task-type">Type of Tasks: {{ task }}</h2>
-
-        <div class="row">
-          <div class="col-sm mt-2">
-            <button
-              type="button"
-              class="btn btn-primary"
-              (click)="getItemsByTaskName('All')"
-            >
-              All
-            </button>
+        <div class="task-buttons">
+          <div class="row">
+            <div class="col-sm mt-1">
+              <button
+                type="button"
+                class="btn btn-primary"
+                (click)="getItemsByTaskName('All')"
+              >
+                All
+              </button>
+            </div>
           </div>
-        </div>
-        <div class="row">
-          <div class="col-sm mt-1">
-            <button
-              type="button"
-              class="btn btn-secondary mr-1"
-              (click)="getItemsByTaskName('None')"
-            >
-              None
-            </button>
-            <button
-              type="button"
-              class="btn btn-success"
-              (click)="getItemsByTaskName('Home')"
-            >
-              Home
-            </button>
+          <div class="row">
+            <div class="col-sm mt-1">
+              <button
+                type="button"
+                class="btn btn-secondary mr-1"
+                (click)="getItemsByTaskName('None')"
+              >
+                None
+              </button>
+              <button
+                type="button"
+                class="btn btn-success"
+                (click)="getItemsByTaskName('Home')"
+              >
+                Home
+              </button>
+            </div>
           </div>
-        </div>
-        <div class="row">
-          <div class="col-sm mt-1">
-            <button
-              type="button"
-              class="btn btn-danger mr-1"
-              (click)="getItemsByTaskName('Work')"
-            >
-              Work
-            </button>
-            <button
-              type="button"
-              class="btn btn-info"
-              (click)="getItemsByTaskName('Shopping')"
-            >
-              Shopping
-            </button>
+          <div class="row">
+            <div class="col-sm mt-1">
+              <button
+                type="button"
+                class="btn btn-danger mr-1"
+                (click)="getItemsByTaskName('Work')"
+              >
+                Work
+              </button>
+              <button
+                type="button"
+                class="btn btn-info"
+                (click)="getItemsByTaskName('Shopping')"
+              >
+                Shopping
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -73,8 +74,13 @@
               [index]="i"
               (changeItem)="onItemChange($event)"
             ></todo-items-item>
-            <h2 class="no-tasks" *ngIf="notDoneItems === 0">No Tasks To-do</h2>
           </ng-container>
+          <h2
+            class="no-tasks"
+            *ngIf="notDoneItems === 0 && displayTodoItems.length !== 0"
+          >
+            No Tasks To-do
+          </h2>
         </mat-tab>
         <mat-tab label="Completed Tasks: {{ doneItems }}">
           <ng-container
@@ -88,8 +94,13 @@
               [index]="i"
               (changeItem)="onItemChange($event)"
             ></todo-items-item>
-            <h2 class="no-tasks" *ngIf="doneItems === 0">No Completed Tasks</h2>
           </ng-container>
+          <h2
+            class="no-tasks"
+            *ngIf="doneItems === 0 && displayTodoItems.length !== 0"
+          >
+            No Completed Tasks
+          </h2>
         </mat-tab>
       </mat-tab-group>
       <h2 *ngIf="displayTodoItems.length === 0">There are no Tasks</h2>

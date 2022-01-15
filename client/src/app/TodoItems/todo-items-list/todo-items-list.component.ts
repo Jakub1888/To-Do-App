@@ -1,12 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { TodoItemsService } from '../../_services/todo-items.service';
-import {
-  trigger,
-  state,
-  style,
-  animate,
-  transition,
-} from '@angular/animations';
 import { TodoItem } from '../../_models/todo-item.model';
 import { AccountService } from 'src/app/_services/account.service';
 
@@ -57,6 +50,11 @@ export class TodoItemsListComponent implements OnInit {
 
   onItemChange() {
     this.getCompletedPercentage();
+    this.displayTodoItems.sort((a, b) => {
+      let dateA = new Date(a.completionDate).valueOf();
+      let dateB = new Date(b.completionDate).valueOf();
+      return dateA - dateB;
+    });
   }
 
   getTodoItems() {

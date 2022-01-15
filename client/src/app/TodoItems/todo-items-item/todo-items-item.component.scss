@@ -1,60 +1,138 @@
 @import "../../Shared/variables.scss";
 
 .todo-item {
-  display: flex;
-  justify-content: space-between;
+  padding: 1em 0.8em;
+}
+
+.item-wrap {
   width: 100%;
-  padding: 1em;
 }
 
-.item-details {
-  display: flex;
-}
-
-.checkbox {
-  position: relative;
-  overflow: hidden;
-  margin: 0;
+.item-buttons {
   display: flex;
   align-items: center;
-  cursor: pointer;
+
+  .button-delete {
+    padding: 0 0.2em 0 0;
+  }
+
+  .checkbox {
+    padding-top: 0.4em;
+    position: relative;
+    overflow: hidden;
+    margin: 0;
+    cursor: pointer;
+    padding-right: 0.5em;
+  }
+
+  .checkbox__input {
+    position: absolute;
+    top: -100px;
+    left: -100px;
+  }
+
+  .checkbox__inner {
+    display: inline-block;
+    min-width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 1px solid #626262;
+    background: transparent no-repeat center;
+  }
+
+  .checkbox__input:checked + .checkbox__inner {
+    border-color: #52c6c4;
+    background-color: #52c6c4;
+    background-image: url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='UTF-8'%3F%3E%3Csvg width='14px' height='10px' viewBox='0 0 14 10' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'%3E%3C!-- Generator: Sketch 59.1 (86144) - https://sketch.com --%3E%3Ctitle%3Echeck%3C/title%3E%3Cdesc%3ECreated with Sketch.%3C/desc%3E%3Cg id='Page-1' stroke='none' stroke-width='1' fill='none' fill-rule='evenodd'%3E%3Cg id='ios_modification' transform='translate(-27.000000, -191.000000)' fill='%23FFFFFF' fill-rule='nonzero'%3E%3Cg id='Group-Copy' transform='translate(0.000000, 164.000000)'%3E%3Cg id='ic-check-18px' transform='translate(25.000000, 23.000000)'%3E%3Cpolygon id='check' points='6.61 11.89 3.5 8.78 2.44 9.84 6.61 14 15.56 5.05 14.5 4'%3E%3C/polygon%3E%3C/g%3E%3C/g%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    background-size: 14px 10px;
+  }
 }
 
-.checkbox__input {
-  position: absolute;
-  top: -100px;
-  left: -100px;
-}
-
-.checkbox__inner {
-  display: inline-block;
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  border: 1px solid #626262;
-  background: transparent no-repeat center;
-}
-
-.checkbox__input:checked + .checkbox__inner {
-  border-color: #52c6c4;
-  background-color: #52c6c4;
-  background-image: url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='UTF-8'%3F%3E%3Csvg width='14px' height='10px' viewBox='0 0 14 10' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'%3E%3C!-- Generator: Sketch 59.1 (86144) - https://sketch.com --%3E%3Ctitle%3Echeck%3C/title%3E%3Cdesc%3ECreated with Sketch.%3C/desc%3E%3Cg id='Page-1' stroke='none' stroke-width='1' fill='none' fill-rule='evenodd'%3E%3Cg id='ios_modification' transform='translate(-27.000000, -191.000000)' fill='%23FFFFFF' fill-rule='nonzero'%3E%3Cg id='Group-Copy' transform='translate(0.000000, 164.000000)'%3E%3Cg id='ic-check-18px' transform='translate(25.000000, 23.000000)'%3E%3Cpolygon id='check' points='6.61 11.89 3.5 8.78 2.44 9.84 6.61 14 15.56 5.05 14.5 4'%3E%3C/polygon%3E%3C/g%3E%3C/g%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-  background-size: 14px 10px;
-}
-
-.description-text {
+form {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  text-align: left;
+  width: 100%;
+
+  .item-header {
+    padding: 0.2em 0.5em;
+    background-color: rgb(214, 209, 209);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .item-details {
+    height: 5em;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .item-error {
+      color: red;
+      font-size: 0.8em;
+      padding-left: 0.2em;
+    }
+  }
+
+  .edit-buttons {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .edit-buttons button {
+    padding: 0 0.3em;
+  }
+
+  fieldset {
+    display: flex;
+    align-items: center;
+  }
+  fieldset:first-of-type {
+    margin-bottom: 0.4em;
+  }
+
+  input:disabled,
+  textarea:disabled {
+    border: none;
+    outline: none;
+    background: #fff;
+    color: black;
+  }
+
+  label {
+    margin: 0;
+    padding: 0;
+    font-size: 1em;
+    padding-right: 0.3em;
+    font-weight: bold;
+  }
+
+  .ng-invalid {
+    outline: 1px solid #dc3545;
+  }
 }
 
-.description-dates {
-  display: flex;
+.form-control {
+  height: 1.8em;
+  font-size: 1em;
+  padding: 0.1em;
+  border: none;
+  outline: 1px solid #ced4da;
+}
+input {
+  width: 12em;
 }
 
 p {
+  display: flex;
   margin: 0;
-  line-height: 1.4em;
+}
+
+textarea {
+  resize: none;
+  width: 24em;
+  padding: 0;
 }
 
 .item-date:first-of-type {
@@ -65,8 +143,29 @@ p {
   background: gray;
   color: #fff;
   height: 2em;
-  padding: 0.3em 0.8em;
+  padding: 0 0.5em;
+  text-align: center;
   border-radius: 1em;
+}
+
+select {
+  border: none;
+  appearance: none;
+  text-indent: 1px;
+  text-overflow: "";
+  outline: 3px solid #ced4da;
+  transition: ease-in 0.1s;
+  cursor: pointer;
+}
+
+select:focus {
+  outline: 3px solid #a9d4fd;
+}
+
+select:disabled {
+  opacity: 1;
+  cursor: auto;
+  outline: none;
 }
 
 .none {
@@ -80,4 +179,33 @@ p {
 }
 .shopping {
   background-color: #17a2b8;
+}
+
+@media screen and (max-width: 1050px) {
+  .item-dates {
+    flex-direction: column;
+  }
+  .item-buttons {
+    padding-top: 0.3em;
+    justify-content: center;
+    flex-direction: column;
+    margin-right: 0.5em;
+
+    .checkbox {
+      padding: 0;
+      margin-top: 0;
+    }
+
+    .button-delete {
+      margin-top: 0.2em;
+      padding: 0;
+    }
+  }
+
+  textarea {
+    width: 13.5em;
+  }
+  textarea::-webkit-scrollbar {
+    display: none;
+  }
 }

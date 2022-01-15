@@ -15,14 +15,21 @@
     Please enter a {{ label }}
   </div>
   <div *ngIf="ngControl.control.errors?.minlength" class="invalid-feedback">
-    {{ label }} must be at least
-    {{ ngControl.control.errors.minlength["requiredLength"] }} characters long
+    {{ label }} must have at least
+    {{ ngControl.control.errors.minlength["requiredLength"] }} characters
   </div>
   <div *ngIf="ngControl.control.errors?.maxlength" class="invalid-feedback">
-    {{ label }} must be at most
-    {{ ngControl.control.errors.maxlength["requiredLength"] }} characters long
+    {{ label }} must have at most
+    {{ ngControl.control.errors.maxlength["requiredLength"] }} characters
   </div>
   <div *ngIf="ngControl.control.errors?.isMatching" class="invalid-feedback">
     Passwords do not match
+  </div>
+  <div *ngIf="ngControl.control.errors?.pattern" class="invalid-feedback">
+    {{
+      label === "Password"
+        ? "Password must contain at least: one digit, one uppercase letter, one lowercase letter"
+        : "No special characters in the username allowed"
+    }}
   </div>
 </div>
