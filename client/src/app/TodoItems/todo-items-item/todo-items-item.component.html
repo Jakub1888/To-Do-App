@@ -15,6 +15,24 @@
             <p class="item-date" *ngIf="todoItem.completionDate">
               <b>Completed:</b>{{ todoItem.completionDate | date: "short" }}
             </p>
+            <div class="errors">
+              <div
+                class="error"
+                *ngIf="
+                  editForm.get('name').errors?.minlength ||
+                  editForm.get('name').errors?.maxlength ||
+                  editForm.get('name').errors?.required
+                "
+              >
+                Task name must be between 3 to 20 characters long
+              </div>
+              <div
+                class="error"
+                *ngIf="editForm.get('description').errors?.maxlength"
+              >
+                Task description can be at most 80 characters long
+              </div>
+            </div>
           </div>
 
           <fieldset [disabled]="!editing">
@@ -37,43 +55,31 @@
         <div class="item-details">
           <div>
             <fieldset [disabled]="!editing">
-              <label class="task-name">Task Name:</label>
-              <input
-                type="text"
-                formControlName="name"
-                spellcheck="false"
-                class="form-control"
-              />
+              <div class="detail-input">
+                <label class="task-name">Task Name:</label>
+                <input
+                  type="text"
+                  formControlName="name"
+                  spellcheck="false"
+                  class="form-control"
+                />
+              </div>
             </fieldset>
-            <div
-              class="item-error"
-              *ngIf="
-                editForm.get('name').errors?.minlength ||
-                editForm.get('name').errors?.maxlength ||
-                editForm.get('name').errors?.required
-              "
-            >
-              Task name must be between 3 to 20 characters long
-            </div>
 
             <fieldset [disabled]="!editing">
-              <label>Task Description:</label>
-              <textarea
-                autosize
-                [minRows]="1"
-                [maxRows]="3"
-                type="text"
-                formControlName="description"
-                spellcheck="false"
-                class="form-control"
-              ></textarea>
+              <div class="detail-input">
+                <label>Task Description:</label>
+                <textarea
+                  autosize
+                  [minRows]="1"
+                  [maxRows]="3"
+                  type="text"
+                  formControlName="description"
+                  spellcheck="false"
+                  class="form-control"
+                ></textarea>
+              </div>
             </fieldset>
-            <div
-              class="item-error"
-              *ngIf="editForm.get('description').errors?.maxlength"
-            >
-              Task description can be at most 80 characters long
-            </div>
           </div>
 
           <div class="item-buttons">

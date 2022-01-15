@@ -1,7 +1,8 @@
 @import "../../Shared/variables.scss";
 
 .todo-item {
-  padding: 1em 0.8em;
+  padding: 0 0.8em;
+  margin-bottom: 1.5em;
 }
 
 .item-wrap {
@@ -48,6 +49,9 @@
   }
 }
 
+/*
+* Edit Item Form
+*/
 form {
   display: flex;
   flex-direction: column;
@@ -60,18 +64,31 @@ form {
     display: flex;
     align-items: center;
     justify-content: space-between;
+
+    .errors {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .error {
+      color: red;
+      font-size: 0.7em;
+      padding-left: 0.6em;
+    }
+  }
+
+  .item-dates {
+    display: flex;
+    align-items: center;
   }
 
   .item-details {
-    height: 5em;
     display: flex;
     align-items: center;
     justify-content: space-between;
 
-    .item-error {
-      color: red;
-      font-size: 0.8em;
-      padding-left: 0.2em;
+    .detail-input {
+      display: flex;
     }
   }
 
@@ -86,10 +103,17 @@ form {
 
   fieldset {
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+
+    label {
+      width: 7.8em;
+    }
   }
+
   fieldset:first-of-type {
-    margin-bottom: 0.4em;
+    margin: 0.3em 0;
   }
 
   input:disabled,
@@ -101,10 +125,9 @@ form {
   }
 
   label {
-    margin: 0;
+    margin: 0.2em 0.3em 0 0.4em;
     padding: 0;
     font-size: 1em;
-    padding-right: 0.3em;
     font-weight: bold;
   }
 
@@ -131,7 +154,8 @@ p {
 
 textarea {
   resize: none;
-  width: 24em;
+  width: 27em;
+  max-height: 3.3em;
   padding: 0;
 }
 
@@ -143,7 +167,7 @@ textarea {
   background: gray;
   color: #fff;
   height: 2em;
-  padding: 0 0.5em;
+  padding: 0 0.4em;
   text-align: center;
   border-radius: 1em;
 }
@@ -153,7 +177,7 @@ select {
   appearance: none;
   text-indent: 1px;
   text-overflow: "";
-  outline: 3px solid #ced4da;
+  outline: 2px solid #fffb00;
   transition: ease-in 0.1s;
   cursor: pointer;
 }
@@ -181,31 +205,46 @@ select:disabled {
   background-color: #17a2b8;
 }
 
+/*
+* Responsivity
+*/
 @media screen and (max-width: 1050px) {
-  .item-dates {
-    flex-direction: column;
-  }
   .item-buttons {
-    padding-top: 0.3em;
     justify-content: center;
-    flex-direction: column;
-    margin-right: 0.5em;
 
     .checkbox {
-      padding: 0;
-      margin-top: 0;
+      padding-top: 0.35em;
     }
 
     .button-delete {
-      margin-top: 0.2em;
       padding: 0;
     }
   }
 
   textarea {
-    width: 13.5em;
+    width: 15em;
+    max-height: 4.4em;
   }
   textarea::-webkit-scrollbar {
     display: none;
+  }
+
+  .item-dates {
+    align-items: flex-start !important;
+    flex-direction: column;
+  }
+}
+@media screen and (max-width: 830px) {
+  .todo-item {
+    padding: 0 0.4em;
+  }
+  .item-buttons .checkbox {
+    padding-right: 0;
+  }
+  .item-buttons {
+    flex-direction: column;
+  }
+  textarea {
+    width: 12em;
   }
 }
