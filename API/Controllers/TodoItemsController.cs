@@ -36,6 +36,7 @@ namespace API.Controllers
 
             return await _context.TodoItems
                 .Where(x => x.AppUserId == userId)
+                .OrderBy(x => x.CompletionDate)
                 .Select(x => ItemToDto(x))
                 .ToListAsync();
         }
@@ -95,7 +96,17 @@ namespace API.Controllers
             }
 
             todoItem.Done = todoItemDto.Done;
-            todoItem.CompletionDate = todoItemDto.CompletionDate;
+            if (todoItem.Done == true)
+            {
+                todoItem.CompletionDate = DateTime.Now;
+            }
+            else
+            {
+                todoItem.Name = todoItemDto.Name;
+                todoItem.Description = todoItemDto.Description;
+                todoItem.TaskType = todoItemDto.TaskType;
+                todoItem.CompletionDate = null;
+            }
 
             try
             {
